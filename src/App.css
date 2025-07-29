@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #181818;
+  color: #fff;
+  min-height: 100vh;
+}
+
+main {
+  min-height: calc(100vh - 200px);
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Loading animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Full width for movie carousels */
+.movie-carousel {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0;
+}
+
+/* Banner full width */
+.banner-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
