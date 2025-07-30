@@ -54,17 +54,7 @@ function Navbar() {
         flexWrap: "wrap",
         gap: "1rem"
       }}>
-        {/* Search Bar - Left side */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          flex: 1,
-          maxWidth: "400px"
-        }} className="desktop-nav">
-          <SearchBar />
-        </div>
-
-        {/* Logo - Center */}
+        {/* Logo - Left side */}
         <Link to="/" style={{
           textDecoration: "none",
           color: "#ff9800",
@@ -74,6 +64,17 @@ function Navbar() {
         }}>
           MovieFlix
         </Link>
+
+        {/* Search Bar - Center */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          flex: 1,
+          justifyContent: "center",
+          maxWidth: "600px"
+        }} className="desktop-nav">
+          <SearchBar />
+        </div>
 
         {/* Desktop Links - Right side */}
         <div style={{
