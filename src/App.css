@@ -483,6 +483,11 @@ img {
     display: flex !important;
   }
   
+  /* Show mobile search bar */
+  .mobile-search {
+    display: block !important;
+  }
+  
   /* Mobile-specific improvements */
   .mobile-nav {
     max-height: 80vh;
@@ -512,6 +517,10 @@ img {
   }
   
   .mobile-nav {
+    display: none !important;
+  }
+  
+  .mobile-search {
     display: none !important;
   }
 }

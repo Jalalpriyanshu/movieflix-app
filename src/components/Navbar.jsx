@@ -54,18 +54,7 @@ function Navbar() {
         flexWrap: "wrap",
         gap: "1rem"
       }}>
-        {/* Logo */}
-        <Link to="/" style={{
-          textDecoration: "none",
-          color: "#ff9800",
-          fontSize: "clamp(1.25rem, 3vw, 2rem)",
-          fontWeight: "bold",
-          whiteSpace: "nowrap"
-        }}>
-          MovieFlix
-        </Link>
-
-        {/* Mobile Menu Button - Always visible on mobile */}
+        {/* Mobile Menu Button - Left side */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -91,7 +80,7 @@ function Navbar() {
           {isMobileMenuOpen ? "✕" : "☰"}
         </button>
 
-        {/* Desktop Navigation */}
+        {/* Desktop Navigation - Center */}
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -102,6 +91,17 @@ function Navbar() {
         }} className="desktop-nav">
           <SearchBar />
         </div>
+
+        {/* Logo - Right side */}
+        <Link to="/" style={{
+          textDecoration: "none",
+          color: "#ff9800",
+          fontSize: "clamp(1.25rem, 3vw, 2rem)",
+          fontWeight: "bold",
+          whiteSpace: "nowrap"
+        }}>
+          MovieFlix
+        </Link>
 
         {/* Desktop Links */}
         <div style={{
@@ -190,12 +190,7 @@ function Navbar() {
               marginTop: "0.5rem",
               zIndex: 1001
             }} className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}>
-              {/* Search Bar for Mobile */}
-              <div style={{marginBottom: "1rem"}}>
-                <SearchBar />
-              </div>
-              
-              {/* Mobile Navigation Links */}
+              {/* Mobile Navigation Links - No Search Bar */}
               <div style={{
                 display: "flex",
                 flexDirection: "column",
@@ -292,6 +287,18 @@ function Navbar() {
             </div>
           </>
         )}
+
+        {/* Mobile Search Bar - Always visible on mobile */}
+        <div style={{
+          position: "fixed",
+          top: "80px",
+          left: "1rem",
+          right: "1rem",
+          zIndex: 998,
+          display: "none"
+        }} className="mobile-search">
+          <SearchBar />
+        </div>
       </div>
     </nav>
   );
