@@ -43,6 +43,10 @@ function BannerSlider() {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [showBooking, setShowBooking] = useState(false);
+  const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [selectedSeats, setSelectedSeats] = useState(1);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
   // Auto-rotate banners every 5 seconds
   useEffect(() => {
@@ -67,22 +71,59 @@ function BannerSlider() {
     setSelectedMovie(banner);
     setShowModal(true);
     setShowBooking(false);
+    setShowPaymentSuccess(false);
   };
 
   const closeModal = () => {
     setShowModal(false);
     setSelectedMovie(null);
     setShowBooking(false);
+    setShowPaymentSuccess(false);
+    setBookingDetails(null);
   };
 
   const handleBookNow = () => {
     setShowBooking(true);
+    setShowPaymentSuccess(false);
   };
 
   const handlePayment = (paymentMethod) => {
-    alert(`Processing payment for ${selectedMovie.title} via ${paymentMethod}`);
-    // Here you would integrate with your payment system
+    setSelectedPaymentMethod(paymentMethod);
+    
+    // Simulate payment processing
+    setTimeout(() => {
+      const bookingId = Math.random().toString(36).substr(2, 9).toUpperCase();
+      const basePrice = parseFloat(selectedMovie.price.replace('$', ''));
+      const totalPrice = basePrice * selectedSeats;
+      const gst = totalPrice * 0.18;
+      const finalTotal = totalPrice + gst;
+      
+      setBookingDetails({
+        movie: selectedMovie.title,
+        customer: "John Doe", // In real app, this would come from user profile
+        seats: selectedSeats,
+        paymentMethod: paymentMethod,
+        bookingId: bookingId,
+        basePrice: basePrice,
+        gst: gst,
+        total: finalTotal,
+        date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(), // 7 days from now
+        time: "7:00 PM",
+        venue: "PVR Cinemas, City Center"
+      });
+      
+      setShowPaymentSuccess(true);
+      setShowBooking(false);
+    }, 2000);
+  };
+
+  const handleBookAnotherMovie = () => {
     closeModal();
+  };
+
+  const handlePrintTicket = () => {
+    // In real app, this would generate and download a PDF ticket
+    alert("Ticket downloaded successfully!");
   };
 
   return (
@@ -394,14 +435,18 @@ function BannerSlider() {
                       <label style={{ color: "#fff", display: "block", marginBottom: "0.5rem" }}>
                         Number of Tickets:
                       </label>
-                      <select style={{
-                        width: "100%",
-                        padding: "0.5rem",
-                        background: "#333",
-                        color: "#fff",
-                        border: "1px solid #555",
-                        borderRadius: "4px"
-                      }}>
+                      <select 
+                        value={selectedSeats}
+                        onChange={(e) => setSelectedSeats(parseInt(e.target.value))}
+                        style={{
+                          width: "100%",
+                          padding: "0.5rem",
+                          background: "#333",
+                          color: "#fff",
+                          border: "1px solid #555",
+                          borderRadius: "4px"
+                        }}
+                      >
                         {[1,2,3,4,5,6,7,8].map(num => (
                           <option key={num} value={num}>{num}</option>
                         ))}
@@ -425,9 +470,27 @@ function BannerSlider() {
                         </span>
                       </div>
                       <div style={{ marginBottom: "1rem" }}>
-                        <span style={{ color: "#ccc" }}>Total: </span>
+                        <span style={{ color: "#ccc" }}>Number of tickets: </span>
                         <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>
-                          {selectedMovie.price}
+                          {selectedSeats}
+                        </span>
+                      </div>
+                      <div style={{ marginBottom: "1rem" }}>
+                        <span style={{ color: "#ccc" }}>Subtotal: </span>
+                        <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+                          ${(parseFloat(selectedMovie.price.replace('$', '')) * selectedSeats).toFixed(2)}
+                        </span>
+                      </div>
+                      <div style={{ marginBottom: "1rem" }}>
+                        <span style={{ color: "#ccc" }}>GST (18%): </span>
+                        <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+                          ${((parseFloat(selectedMovie.price.replace('$', '')) * selectedSeats * 0.18)).toFixed(2)}
+                        </span>
+                      </div>
+                      <div style={{ marginBottom: "1rem" }}>
+                        <span style={{ color: "#ccc" }}>Total: </span>
+                        <span style={{ color: "#4CAF50", fontWeight: "bold", fontSize: "1.1rem" }}>
+                          ${((parseFloat(selectedMovie.price.replace('$', '')) * selectedSeats * 1.18)).toFixed(2)}
                         </span>
                       </div>
                     </div>
@@ -495,6 +558,156 @@ function BannerSlider() {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Payment Success Modal */}
+      {showPaymentSuccess && bookingDetails && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(0,0,0,0.9)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 1000,
+          padding: "1rem"
+        }}>
+          <div style={{
+            background: "#1a1a1a",
+            borderRadius: "12px",
+            maxWidth: "600px",
+            width: "100%",
+            maxHeight: "80vh",
+            overflow: "auto",
+            position: "relative",
+            textAlign: "center"
+          }}>
+            <button
+              onClick={closeModal}
+              style={{
+                position: "absolute",
+                top: "1rem",
+                right: "1rem",
+                background: "rgba(0,0,0,0.5)",
+                border: "none",
+                color: "white",
+                fontSize: "1.5rem",
+                cursor: "pointer",
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                zIndex: 10
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{ padding: "2rem" }}>
+              <h2 style={{ color: "#4CAF50", marginBottom: "1rem" }}>
+                Payment Successful!
+              </h2>
+              <p style={{ color: "#ccc", marginBottom: "1rem" }}>
+                Your booking for {bookingDetails.movie} has been confirmed.
+              </p>
+              <div style={{
+                background: "#2a2a2a",
+                padding: "1.5rem",
+                borderRadius: "8px",
+                marginBottom: "1.5rem"
+              }}>
+                <h3 style={{ color: "#fff", marginBottom: "0.5rem" }}>
+                  Booking Details
+                </h3>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Movie: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.movie}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Customer: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.customer}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Seats: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.seats}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Payment Method: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.paymentMethod}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Booking ID: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.bookingId}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Base Price: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>${bookingDetails.basePrice.toFixed(2)}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  GST: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>${bookingDetails.gst.toFixed(2)}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Total: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>${bookingDetails.total.toFixed(2)}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Date: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.date}</span>
+                </p>
+                <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                  Time: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.time}</span>
+                </p>
+                               <p style={{ color: "#ccc", marginBottom: "0.3rem" }}>
+                 Venue: <span style={{ color: "#ff6b6b", fontWeight: "bold" }}>{bookingDetails.venue}</span>
+               </p>
+             </div>
+             
+             <div style={{
+               background: "#2a2a2a",
+               padding: "1rem",
+               borderRadius: "8px",
+               marginBottom: "1.5rem"
+             }}>
+               <p style={{ color: "#4CAF50", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                 📧 A confirmation email has been sent to your registered email address.
+               </p>
+               <p style={{ color: "#4CAF50", marginBottom: "0", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                 📱 You will receive an SMS with your booking details shortly.
+               </p>
+             </div>
+             
+             <p style={{ color: "#ccc", marginBottom: "1.5rem" }}>
+               Thank you for your booking! Please arrive 15 minutes before the show time.
+             </p>
+             
+             <button
+                onClick={handleBookAnotherMovie}
+                style={{
+                  background: "#ff6b6b",
+                  color: "white",
+                  border: "none",
+                  padding: "0.75rem 1.5rem",
+                  borderRadius: "25px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "1rem"
+                }}
+              >
+                Book Another Movie
+              </button>
+              <button
+                onClick={handlePrintTicket}
+                style={{
+                  background: "#4CAF50",
+                  color: "white",
+                  border: "none",
+                  padding: "0.75rem 1.5rem",
+                  borderRadius: "25px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  marginLeft: "1rem"
+                }}
+              >
+                Print Ticket
+              </button>
+            </div>
           </div>
         </div>
       )}

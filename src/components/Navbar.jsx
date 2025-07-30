@@ -71,7 +71,7 @@ function Navbar() {
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
           style={{
-            display: "block",
+            display: "none", // Hidden by default, shown on mobile via CSS
             background: "rgba(255, 255, 255, 0.1)",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             color: "#fff",
@@ -82,7 +82,6 @@ function Navbar() {
             transition: "all 0.3s ease",
             minWidth: "44px",
             minHeight: "44px",
-            display: "flex",
             alignItems: "center",
             justifyContent: "center"
           }}
@@ -161,76 +160,121 @@ function Navbar() {
         </div>
 
         {/* Mobile Navigation */}
-        <div style={{
-          display: isMobileMenuOpen ? "flex" : "none",
-          flexDirection: "column",
-          width: "100%",
-          marginTop: "1rem",
-          gap: "1rem",
-          background: "#292929",
-          padding: "1rem",
-          borderRadius: "8px",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
-        }} className="mobile-nav">
-          <SearchBar />
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.5rem"
-          }}>
-            <Link to="/faq" style={{
-              textDecoration: "none",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "6px",
-              background: "#333",
-              fontSize: "1rem",
-              textAlign: "center",
-              transition: "background 0.3s"
-            }}>
-              FAQ
-            </Link>
-            <Link to="/contact" style={{
-              textDecoration: "none",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "6px",
-              background: "#333",
-              fontSize: "1rem",
-              textAlign: "center",
-              transition: "background 0.3s"
-            }}>
-              Contact
-            </Link>
-            <Link to="/signup" style={{
-              textDecoration: "none",
-              background: "#ff9800",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "6px",
-              fontWeight: "bold",
-              fontSize: "1rem",
-              textAlign: "center",
-              transition: "all 0.3s ease"
-            }}>
-              Sign up
-            </Link>
-            <Link to="/login" style={{
-              textDecoration: "none",
-              background: "transparent",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "6px",
-              fontWeight: "bold",
-              fontSize: "1rem",
-              textAlign: "center",
-              transition: "all 0.3s ease",
-              border: "1px solid #ff9800"
-            }}>
-              Sign in
-            </Link>
-          </div>
-        </div>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <div 
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0,0,0,0.5)",
+                zIndex: 999
+              }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            
+            {/* Mobile Menu */}
+            <div style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              background: "#292929",
+              padding: "1rem",
+              borderRadius: "8px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+              marginTop: "0.5rem",
+              zIndex: 1001
+            }} className="mobile-nav">
+              {/* Search Bar for Mobile */}
+              <div style={{marginBottom: "1rem"}}>
+                <SearchBar />
+              </div>
+              
+              {/* Mobile Navigation Links */}
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.5rem"
+              }}>
+                <Link 
+                  to="/faq" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
+                    background: "#333",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    transition: "background 0.3s",
+                    display: "block"
+                  }}
+                >
+                  FAQ
+                </Link>
+                <Link 
+                  to="/contact" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    textDecoration: "none",
+                    color: "#fff",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
+                    background: "#333",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    transition: "background 0.3s",
+                    display: "block"
+                  }}
+                >
+                  Contact
+                </Link>
+                <Link 
+                  to="/signup" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    textDecoration: "none",
+                    background: "#ff9800",
+                    color: "#fff",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    transition: "all 0.3s ease",
+                    display: "block"
+                  }}
+                >
+                  Sign up
+                </Link>
+                <Link 
+                  to="/login" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    textDecoration: "none",
+                    background: "transparent",
+                    color: "#fff",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
+                    fontWeight: "bold",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    transition: "all 0.3s ease",
+                    border: "1px solid #ff9800",
+                    display: "block"
+                  }}
+                >
+                  Sign in
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </nav>
   );
