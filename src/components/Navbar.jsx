@@ -65,13 +65,13 @@ function Navbar() {
           MovieFlix
         </Link>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - Always visible on mobile */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
           style={{
-            display: "none", // Hidden by default, shown on mobile via CSS
+            display: "flex", // Always show the button, CSS will handle visibility
             background: "rgba(255, 255, 255, 0.1)",
             border: "1px solid rgba(255, 255, 255, 0.2)",
             color: "#fff",
@@ -83,7 +83,8 @@ function Navbar() {
             minWidth: "44px",
             minHeight: "44px",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            zIndex: 1002
           }}
           className="mobile-menu-btn"
         >
@@ -188,7 +189,7 @@ function Navbar() {
               boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
               marginTop: "0.5rem",
               zIndex: 1001
-            }} className="mobile-nav">
+            }} className={`mobile-nav ${isMobileMenuOpen ? 'active' : ''}`}>
               {/* Search Bar for Mobile */}
               <div style={{marginBottom: "1rem"}}>
                 <SearchBar />
@@ -206,13 +207,17 @@ function Navbar() {
                   style={{
                     textDecoration: "none",
                     color: "#fff",
-                    padding: "0.75rem",
-                    borderRadius: "6px",
+                    padding: "1rem",
+                    borderRadius: "8px",
                     background: "#333",
                     fontSize: "1rem",
                     textAlign: "center",
                     transition: "background 0.3s",
-                    display: "block"
+                    display: "block",
+                    minHeight: "44px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
                 >
                   FAQ
@@ -223,13 +228,17 @@ function Navbar() {
                   style={{
                     textDecoration: "none",
                     color: "#fff",
-                    padding: "0.75rem",
-                    borderRadius: "6px",
+                    padding: "1rem",
+                    borderRadius: "8px",
                     background: "#333",
                     fontSize: "1rem",
                     textAlign: "center",
                     transition: "background 0.3s",
-                    display: "block"
+                    display: "block",
+                    minHeight: "44px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
                 >
                   Contact
@@ -241,13 +250,17 @@ function Navbar() {
                     textDecoration: "none",
                     background: "#ff9800",
                     color: "#fff",
-                    padding: "0.75rem",
-                    borderRadius: "6px",
+                    padding: "1rem",
+                    borderRadius: "8px",
                     fontWeight: "bold",
                     fontSize: "1rem",
                     textAlign: "center",
                     transition: "all 0.3s ease",
-                    display: "block"
+                    display: "block",
+                    minHeight: "44px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
                 >
                   Sign up
@@ -259,14 +272,18 @@ function Navbar() {
                     textDecoration: "none",
                     background: "transparent",
                     color: "#fff",
-                    padding: "0.75rem",
-                    borderRadius: "6px",
+                    padding: "1rem",
+                    borderRadius: "8px",
                     fontWeight: "bold",
                     fontSize: "1rem",
                     textAlign: "center",
                     transition: "all 0.3s ease",
                     border: "1px solid #ff9800",
-                    display: "block"
+                    display: "block",
+                    minHeight: "44px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
                 >
                   Sign in
