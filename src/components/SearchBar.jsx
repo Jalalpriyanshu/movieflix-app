@@ -7,6 +7,7 @@ function SearchBar() {
   const [results, setResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   // Debounced search - search as user types
@@ -17,6 +18,7 @@ function SearchBar() {
       } else {
         setResults([]);
         setShowResults(false);
+        setError("");
       }
     }, 300); // 300ms delay
 
@@ -25,18 +27,23 @@ function SearchBar() {
 
   const performSearch = async () => {
     setLoading(true);
+    setError("");
     try {
       const data = await searchMovies(query);
-      if (data.Response === "True") {
+      console.log("Search data:", data); // Debug log
+      
+      if (data.Response === "True" && data.Search) {
         setResults(data.Search.slice(0, 5)); // Limit to 5 results for faster display
         setShowResults(true);
       } else {
         setResults([]);
+        setError(data.Error || "No movies found");
         setShowResults(true);
       }
     } catch (error) {
       console.error("Search error:", error);
       setResults([]);
+      setError("Failed to search movies. Please try again.");
       setShowResults(true);
     } finally {
       setLoading(false);
@@ -56,7 +63,7 @@ function SearchBar() {
   };
 
   const handleInputFocus = () => {
-    if (results.length > 0) {
+    if (results.length > 0 || error) {
       setShowResults(true);
     }
   };
@@ -67,10 +74,11 @@ function SearchBar() {
   };
 
   return (
-    <div style={{position: "relative"}}>
+    <div style={{position: "relative", width: "100%"}}>
       <form onSubmit={handleSearch} style={{
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        width: "100%"
       }}>
         <input
           type="text"
@@ -83,8 +91,9 @@ function SearchBar() {
             padding: "0.7rem 1rem",
             borderRadius: "4px 0 0 4px",
             border: "1px solid #ccc",
-            width: "350px",
-            fontSize: "0.9rem"
+            width: "100%",
+            fontSize: "0.9rem",
+            flex: 1
           }}
         />
         <button type="submit" disabled={loading} style={{
@@ -95,7 +104,8 @@ function SearchBar() {
           padding: "0.7rem 1.5rem",
           fontWeight: "bold",
           cursor: loading ? "not-allowed" : "pointer",
-          opacity: loading ? 0.7 : 1
+          opacity: loading ? 0.7 : 1,
+          whiteSpace: "nowrap"
         }}>
           {loading ? "..." : "Search"}
         </button>
@@ -113,7 +123,8 @@ function SearchBar() {
           boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
           zIndex: 1000,
           maxHeight: "300px",
-          overflowY: "auto"
+          overflowY: "auto",
+          marginTop: "0.25rem"
         }}>
           {loading ? (
             <div style={{
@@ -122,6 +133,14 @@ function SearchBar() {
               color: "#666"
             }}>
               Searching...
+            </div>
+          ) : error ? (
+            <div style={{
+              padding: "1rem",
+              textAlign: "center",
+              color: "#e74c3c"
+            }}>
+              {error}
             </div>
           ) : results.length > 0 ? (
             results.map((movie) => (
@@ -135,10 +154,13 @@ function SearchBar() {
                   color: "#333",
                   display: "flex",
                   alignItems: "center",
-                  gap: "1rem"
+                  gap: "1rem",
+                  minHeight: "60px"
                 }}
                 onMouseEnter={(e) => e.target.style.backgroundColor = "#f5f5f5"}
                 onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+                onTouchStart={(e) => e.target.style.backgroundColor = "#f5f5f5"}
+                onTouchEnd={(e) => e.target.style.backgroundColor = "transparent"}
               >
                 <img 
                   src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/40x60/666/fff?text=No+Image"}
@@ -147,11 +169,12 @@ function SearchBar() {
                     width: "40px",
                     height: "60px",
                     objectFit: "cover",
-                    borderRadius: "4px"
+                    borderRadius: "4px",
+                    flexShrink: 0
                   }}
                 />
-                <div>
-                  <div style={{fontWeight: "bold"}}>{movie.Title}</div>
+                <div style={{flex: 1, minWidth: 0}}>
+                  <div style={{fontWeight: "bold", fontSize: "0.9rem", marginBottom: "0.25rem"}}>{movie.Title}</div>
                   <div style={{fontSize: "0.8rem", color: "#666"}}>{movie.Year}</div>
                 </div>
               </div>

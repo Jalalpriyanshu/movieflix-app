@@ -1,13 +1,14 @@
-const API_KEY = "ecc218a8"; // Replace with your actual API key
+const API_KEY = "f84fc31d"; // Updated API key for better reliability
 export async function searchMovies(query) {
   try {
     const res = await fetch(
-      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}`
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${encodeURIComponent(query)}&type=movie`
     );
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     const data = await res.json();
+    console.log("Search response:", data); // Debug log
     return data;
   } catch (error) {
     console.error("Error fetching movies:", error);

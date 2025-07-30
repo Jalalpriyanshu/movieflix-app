@@ -45,13 +45,21 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
 
   return (
     <div style={{
-      maxWidth: "500px",
+      maxWidth: "600px",
       margin: "0 auto",
       background: "#292929",
       padding: "2rem",
-      borderRadius: "12px"
+      borderRadius: "12px",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
     }}>
-      <h2 style={{textAlign: "center", marginBottom: "2rem"}}>Payment Details</h2>
+      <h2 style={{
+        textAlign: "center", 
+        marginBottom: "2rem",
+        color: "#ff9800",
+        fontSize: "2rem"
+      }}>
+        Payment Details
+      </h2>
       
       {/* Price Breakdown */}
       <div style={{
@@ -60,56 +68,98 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
         borderRadius: "8px",
         marginBottom: "2rem"
       }}>
-        <h3 style={{marginTop: 0, color: "#ff9800"}}>Price Breakdown</h3>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>Movie: {movie?.Title}</span>
+        <h3 style={{marginTop: 0, color: "#ff9800", marginBottom: "1rem"}}>Price Breakdown</h3>
+        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+          <span>Base Price:</span>
           <span>₹{basePrice}</span>
         </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>Seats: {seats}</span>
-          <span>× {seats}</span>
+        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+          <span>Seats:</span>
+          <span>{seats}</span>
         </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
+        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
           <span>Subtotal:</span>
           <span>₹{totalPrice}</span>
         </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
+        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
           <span>GST (18%):</span>
           <span>₹{gst.toFixed(2)}</span>
         </div>
         <hr style={{border: "1px solid #444", margin: "1rem 0"}} />
-        <div style={{display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "1.2rem"}}>
-          <span>Total:</span>
-          <span style={{color: "#ff9800"}}>₹{finalTotal.toFixed(2)}</span>
+        <div style={{display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "1.2rem", color: "#4caf50"}}>
+          <span>Total Amount:</span>
+          <span>₹{finalTotal.toFixed(2)}</span>
         </div>
       </div>
 
       {/* Payment Method Selection */}
       <div style={{marginBottom: "2rem"}}>
-        <h3 style={{marginBottom: "1rem"}}>Select Payment Method</h3>
-        <div style={{display: "flex", gap: "1rem", marginBottom: "1rem"}}>
-          <label style={{display: "flex", alignItems: "center", cursor: "pointer"}}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="card"
-              checked={paymentMethod === "card"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              style={{marginRight: "0.5rem"}}
-            />
-            Credit/Debit Card
-          </label>
-          <label style={{display: "flex", alignItems: "center", cursor: "pointer"}}>
-            <input
-              type="radio"
-              name="paymentMethod"
-              value="upi"
-              checked={paymentMethod === "upi"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              style={{marginRight: "0.5rem"}}
-            />
-            UPI
-          </label>
+        <h3 style={{marginBottom: "1rem", color: "#fff"}}>Select Payment Method</h3>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem"
+        }}>
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("card")}
+            style={{
+              background: paymentMethod === "card" ? "#ff9800" : "#333",
+              color: "#fff",
+              border: "none",
+              padding: "1rem",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              fontSize: "1rem"
+            }}
+          >
+            💳 Pay with Credit Card
+          </button>
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("upi")}
+            style={{
+              background: paymentMethod === "upi" ? "#6f42c1" : "#333",
+              color: "#fff",
+              border: "none",
+              padding: "1rem",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              fontSize: "1rem"
+            }}
+          >
+            📱 Pay with UPI
+          </button>
+          <button
+            type="button"
+            onClick={() => setPaymentMethod("paypal")}
+            style={{
+              background: paymentMethod === "paypal" ? "#0070ba" : "#333",
+              color: "#fff",
+              border: "none",
+              padding: "1rem",
+              borderRadius: "8px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "0.5rem",
+              fontSize: "1rem"
+            }}
+          >
+            💰 Pay with PayPal
+          </button>
         </div>
       </div>
 
@@ -118,7 +168,14 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
         {paymentMethod === "card" ? (
           <>
             <div style={{marginBottom: "1rem"}}>
-              <label style={{display: "block", marginBottom: "0.5rem"}}>Card Number:</label>
+              <label style={{
+                display: "block", 
+                marginBottom: "0.5rem",
+                color: "#fff",
+                fontWeight: "500"
+              }}>
+                Card Number:
+              </label>
               <input
                 type="text"
                 value={cardNumber}
@@ -127,16 +184,24 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
                 required
                 style={{
                   width: "100%",
-                  padding: "0.7rem",
-                  borderRadius: "4px",
+                  padding: "0.75rem",
+                  borderRadius: "6px",
                   border: "1px solid #444",
                   background: "#181818",
-                  color: "#fff"
+                  color: "#fff",
+                  fontSize: "1rem"
                 }}
               />
             </div>
             <div style={{marginBottom: "1rem"}}>
-              <label style={{display: "block", marginBottom: "0.5rem"}}>Cardholder Name:</label>
+              <label style={{
+                display: "block", 
+                marginBottom: "0.5rem",
+                color: "#fff",
+                fontWeight: "500"
+              }}>
+                Cardholder Name:
+              </label>
               <input
                 type="text"
                 value={cardName}
@@ -145,17 +210,25 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
                 required
                 style={{
                   width: "100%",
-                  padding: "0.7rem",
-                  borderRadius: "4px",
+                  padding: "0.75rem",
+                  borderRadius: "6px",
                   border: "1px solid #444",
                   background: "#181818",
-                  color: "#fff"
+                  color: "#fff",
+                  fontSize: "1rem"
                 }}
               />
             </div>
-            <div style={{display: "flex", gap: "1rem", marginBottom: "1rem"}}>
+            <div style={{display: "flex", gap: "1rem", marginBottom: "2rem"}}>
               <div style={{flex: 1}}>
-                <label style={{display: "block", marginBottom: "0.5rem"}}>Expiry:</label>
+                <label style={{
+                  display: "block", 
+                  marginBottom: "0.5rem",
+                  color: "#fff",
+                  fontWeight: "500"
+                }}>
+                  Expiry:
+                </label>
                 <input
                   type="text"
                   value={expiry}
@@ -164,16 +237,24 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
                   required
                   style={{
                     width: "100%",
-                    padding: "0.7rem",
-                    borderRadius: "4px",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
                     border: "1px solid #444",
                     background: "#181818",
-                    color: "#fff"
+                    color: "#fff",
+                    fontSize: "1rem"
                   }}
                 />
               </div>
               <div style={{flex: 1}}>
-                <label style={{display: "block", marginBottom: "0.5rem"}}>CVV:</label>
+                <label style={{
+                  display: "block", 
+                  marginBottom: "0.5rem",
+                  color: "#fff",
+                  fontWeight: "500"
+                }}>
+                  CVV:
+                </label>
                 <input
                   type="text"
                   value={cvv}
@@ -182,19 +263,27 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
                   required
                   style={{
                     width: "100%",
-                    padding: "0.7rem",
-                    borderRadius: "4px",
+                    padding: "0.75rem",
+                    borderRadius: "6px",
                     border: "1px solid #444",
                     background: "#181818",
-                    color: "#fff"
+                    color: "#fff",
+                    fontSize: "1rem"
                   }}
                 />
               </div>
             </div>
           </>
-        ) : (
-          <div style={{marginBottom: "1rem"}}>
-            <label style={{display: "block", marginBottom: "0.5rem"}}>UPI ID:</label>
+        ) : paymentMethod === "upi" ? (
+          <div style={{marginBottom: "2rem"}}>
+            <label style={{
+              display: "block", 
+              marginBottom: "0.5rem",
+              color: "#fff",
+              fontWeight: "500"
+            }}>
+              UPI ID:
+            </label>
             <input
               type="text"
               value={upiId}
@@ -203,13 +292,29 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
               required
               style={{
                 width: "100%",
-                padding: "0.7rem",
-                borderRadius: "4px",
+                padding: "0.75rem",
+                borderRadius: "6px",
                 border: "1px solid #444",
                 background: "#181818",
-                color: "#fff"
+                color: "#fff",
+                fontSize: "1rem"
               }}
             />
+            <small style={{color: "#bdbdbd", fontSize: "0.8rem", display: "block", marginTop: "0.5rem"}}>
+              Enter your UPI ID (e.g., username@okicici, username@paytm)
+            </small>
+          </div>
+        ) : (
+          <div style={{
+            textAlign: "center",
+            padding: "2rem",
+            background: "#1a1a1a",
+            borderRadius: "8px",
+            marginBottom: "2rem"
+          }}>
+            <p style={{color: "#fff", margin: "0"}}>
+              You will be redirected to PayPal to complete your payment.
+            </p>
           </div>
         )}
 
@@ -218,13 +323,15 @@ function PaymentForm({ movie, seats, onPaymentComplete }) {
           disabled={processing}
           style={{
             width: "100%",
-            padding: "1rem",
+            padding: "1rem 2rem",
             background: processing ? "#666" : "#ff9800",
             color: "#fff",
             border: "none",
-            borderRadius: "6px",
+            borderRadius: "8px",
             fontSize: "1.1rem",
-            cursor: processing ? "not-allowed" : "pointer"
+            fontWeight: "bold",
+            cursor: processing ? "not-allowed" : "pointer",
+            transition: "all 0.3s ease"
           }}
         >
           {processing ? "Processing Payment..." : `Pay ₹${finalTotal.toFixed(2)}`}

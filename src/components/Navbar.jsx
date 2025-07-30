@@ -1,9 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 
 function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMobileMenuOpen && !event.target.closest('.mobile-nav') && !event.target.closest('.mobile-menu-btn')) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu when window is resized to desktop size
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <nav style={{
@@ -40,18 +68,25 @@ function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
           style={{
-            display: "none",
-            background: "none",
-            border: "none",
+            display: "block",
+            background: "rgba(255, 255, 255, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
             color: "#fff",
             fontSize: "1.5rem",
             cursor: "pointer",
-            padding: "0.5rem",
-            borderRadius: "4px",
-            transition: "background 0.3s"
+            padding: "0.75rem",
+            borderRadius: "6px",
+            transition: "all 0.3s ease",
+            minWidth: "44px",
+            minHeight: "44px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
           }}
-          className="show-mobile"
+          className="mobile-menu-btn"
         >
           {isMobileMenuOpen ? "✕" : "☰"}
         </button>
@@ -64,7 +99,7 @@ function Navbar() {
           flex: 1,
           justifyContent: "center",
           maxWidth: "600px"
-        }} className="hide-mobile">
+        }} className="desktop-nav">
           <SearchBar />
         </div>
 
@@ -73,7 +108,7 @@ function Navbar() {
           display: "flex",
           alignItems: "center",
           gap: "clamp(0.5rem, 2vw, 1rem)"
-        }} className="hide-mobile">
+        }} className="desktop-nav">
           <Link to="/faq" style={{
             textDecoration: "none",
             color: "#fff",
@@ -96,7 +131,7 @@ function Navbar() {
           }}>
             Contact
           </Link>
-          <Link to="/login" style={{
+          <Link to="/signup" style={{
             textDecoration: "none",
             background: "#ff9800",
             color: "#fff",
@@ -106,6 +141,20 @@ function Navbar() {
             fontSize: "clamp(0.875rem, 2vw, 1rem)",
             whiteSpace: "nowrap",
             transition: "all 0.3s ease"
+          }}>
+            Sign up
+          </Link>
+          <Link to="/login" style={{
+            textDecoration: "none",
+            background: "transparent",
+            color: "#fff",
+            padding: "clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 2.5vw, 1.5rem)",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            fontSize: "clamp(0.875rem, 2vw, 1rem)",
+            whiteSpace: "nowrap",
+            transition: "all 0.3s ease",
+            border: "1px solid #ff9800"
           }}>
             Sign in
           </Link>
@@ -122,7 +171,7 @@ function Navbar() {
           padding: "1rem",
           borderRadius: "8px",
           boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
-        }} className="show-mobile">
+        }} className="mobile-nav">
           <SearchBar />
           <div style={{
             display: "flex",
@@ -153,7 +202,7 @@ function Navbar() {
             }}>
               Contact
             </Link>
-            <Link to="/login" style={{
+            <Link to="/signup" style={{
               textDecoration: "none",
               background: "#ff9800",
               color: "#fff",
@@ -163,6 +212,20 @@ function Navbar() {
               fontSize: "1rem",
               textAlign: "center",
               transition: "all 0.3s ease"
+            }}>
+              Sign up
+            </Link>
+            <Link to="/login" style={{
+              textDecoration: "none",
+              background: "transparent",
+              color: "#fff",
+              padding: "0.75rem",
+              borderRadius: "6px",
+              fontWeight: "bold",
+              fontSize: "1rem",
+              textAlign: "center",
+              transition: "all 0.3s ease",
+              border: "1px solid #ff9800"
             }}>
               Sign in
             </Link>

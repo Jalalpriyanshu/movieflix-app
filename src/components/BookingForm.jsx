@@ -60,66 +60,32 @@ function BookingForm({ movie, onBook }) {
 
   return (
     <div style={{
-      maxWidth: "500px",
+      maxWidth: "600px",
       margin: "0 auto",
       background: "#292929",
       padding: "2rem",
-      borderRadius: "12px"
+      borderRadius: "12px",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.3)"
     }}>
-      <h2>Book Tickets for {movie.title || movie.Title || "Movie"}</h2>
-      
-      {/* Price Preview */}
-      <div style={{
-        background: "#1a1a1a",
-        padding: "1.5rem",
-        borderRadius: "8px",
-        marginBottom: "2rem"
+      <h2 style={{
+        textAlign: "center",
+        marginBottom: "2rem",
+        color: "#ff9800",
+        fontSize: "2rem"
       }}>
-        <h3 style={{marginTop: 0, color: "#ff9800"}}>Price Preview</h3>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>Base Price:</span>
-          <span>₹{basePrice}</span>
-        </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>Seats:</span>
-          <span>{seats}</span>
-        </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>Subtotal:</span>
-          <span>₹{totalPrice}</span>
-        </div>
-        <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem"}}>
-          <span>GST (18%):</span>
-          <span>₹{gst.toFixed(2)}</span>
-        </div>
-        <hr style={{border: "1px solid #444", margin: "1rem 0"}} />
-        <div style={{display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "1.2rem"}}>
-          <span>Total:</span>
-          <span style={{color: "#ff9800"}}>₹{finalTotal.toFixed(2)}</span>
-        </div>
-      </div>
-
+        Book Your Tickets
+      </h2>
+      
       <form onSubmit={handleBookingSubmit}>
-        <div style={{marginBottom: "1rem"}}>
-          <label style={{display: "block", marginBottom: "0.5rem"}}>Name:</label>
-          <input
-            type="text"
-            value={name}
-            required
-            onChange={e => setName(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "0.7rem",
-              borderRadius: "4px",
-              border: "1px solid #444",
-              background: "#181818",
-              color: "#fff"
-            }}
-          />
-        </div>
-        
-        <div style={{marginBottom: "1rem"}}>
-          <label style={{display: "block", marginBottom: "0.5rem"}}>Number of Seats:</label>
+        <div style={{marginBottom: "2rem"}}>
+          <label style={{
+            display: "block",
+            marginBottom: "0.5rem",
+            color: "#fff",
+            fontWeight: "500"
+          }}>
+            Number of Seats:
+          </label>
           <input
             type="number"
             min="1"
@@ -134,11 +100,12 @@ function BookingForm({ movie, onBook }) {
             }}
             style={{
               width: "100%",
-              padding: "0.7rem",
-              borderRadius: "4px",
+              padding: "0.75rem",
+              borderRadius: "6px",
               border: "1px solid #444",
               background: "#181818",
-              color: "#fff"
+              color: "#fff",
+              fontSize: "1rem"
             }}
           />
           <small style={{color: "#bdbdbd", fontSize: "0.8rem"}}>
@@ -146,17 +113,50 @@ function BookingForm({ movie, onBook }) {
           </small>
         </div>
         
+        {/* Price Breakdown */}
+        <div style={{
+          background: "#1a1a1a",
+          padding: "1.5rem",
+          borderRadius: "8px",
+          marginBottom: "2rem"
+        }}>
+          <h3 style={{marginTop: 0, color: "#ff9800", marginBottom: "1rem"}}>Price Breakdown</h3>
+          <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+            <span>Base Price:</span>
+            <span>₹{basePrice}</span>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+            <span>Seats:</span>
+            <span>{seats}</span>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+            <span>Subtotal:</span>
+            <span>₹{totalPrice}</span>
+          </div>
+          <div style={{display: "flex", justifyContent: "space-between", marginBottom: "0.5rem", color: "#fff"}}>
+            <span>GST (18%):</span>
+            <span>₹{gst.toFixed(2)}</span>
+          </div>
+          <hr style={{border: "1px solid #444", margin: "1rem 0"}} />
+          <div style={{display: "flex", justifyContent: "space-between", fontWeight: "bold", fontSize: "1.2rem", color: "#4caf50"}}>
+            <span>Total Amount:</span>
+            <span>₹{finalTotal.toFixed(2)}</span>
+          </div>
+        </div>
+        
         <button type="submit" style={{
           width: "100%",
-          padding: "1rem",
+          padding: "1rem 2rem",
           background: "#ff9800",
           color: "#fff",
           border: "none",
-          borderRadius: "6px",
+          borderRadius: "8px",
           fontSize: "1.1rem",
-          cursor: "pointer"
+          fontWeight: "bold",
+          cursor: "pointer",
+          transition: "all 0.3s ease"
         }}>
-          Proceed to Payment - ₹{finalTotal.toFixed(2)}
+          Book Now - ₹{finalTotal.toFixed(2)}
         </button>
       </form>
     </div>
