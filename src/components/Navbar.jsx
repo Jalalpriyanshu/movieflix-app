@@ -54,45 +54,17 @@ function Navbar() {
         flexWrap: "wrap",
         gap: "1rem"
       }}>
-        {/* Mobile Menu Button - Left side */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isMobileMenuOpen}
-          style={{
-            display: "flex", // Always show the button, CSS will handle visibility
-            background: "rgba(255, 255, 255, 0.1)",
-            border: "1px solid rgba(255, 255, 255, 0.2)",
-            color: "#fff",
-            fontSize: "1.5rem",
-            cursor: "pointer",
-            padding: "0.75rem",
-            borderRadius: "6px",
-            transition: "all 0.3s ease",
-            minWidth: "44px",
-            minHeight: "44px",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1002
-          }}
-          className="mobile-menu-btn"
-        >
-          {isMobileMenuOpen ? "✕" : "☰"}
-        </button>
-
-        {/* Desktop Navigation - Center */}
+        {/* Search Bar - Left side */}
         <div style={{
           display: "flex",
           alignItems: "center",
-          gap: "clamp(1rem, 3vw, 2rem)",
           flex: 1,
-          justifyContent: "center",
-          maxWidth: "600px"
+          maxWidth: "400px"
         }} className="desktop-nav">
           <SearchBar />
         </div>
 
-        {/* Logo - Right side */}
+        {/* Logo - Center */}
         <Link to="/" style={{
           textDecoration: "none",
           color: "#ff9800",
@@ -103,7 +75,7 @@ function Navbar() {
           MovieFlix
         </Link>
 
-        {/* Desktop Links */}
+        {/* Desktop Links - Right side */}
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -159,6 +131,32 @@ function Navbar() {
             Sign in
           </Link>
         </div>
+
+        {/* Mobile Menu Button - Right side for mobile */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+          style={{
+            display: "flex", // Always show the button, CSS will handle visibility
+            background: "rgba(255, 255, 255, 0.1)",
+            border: "1px solid rgba(255, 255, 255, 0.2)",
+            color: "#fff",
+            fontSize: "1.5rem",
+            cursor: "pointer",
+            padding: "0.75rem",
+            borderRadius: "6px",
+            transition: "all 0.3s ease",
+            minWidth: "44px",
+            minHeight: "44px",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1002
+          }}
+          className="mobile-menu-btn"
+        >
+          {isMobileMenuOpen ? "✕" : "☰"}
+        </button>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
