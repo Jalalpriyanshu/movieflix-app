@@ -1,7 +1,7 @@
 // omdb.js
 
 // 🔑 Your OMDb API key
-const API_KEY = "f84fc31d"; 
+const API_KEY = "b5a05a49";  // ✅ Updated with working key
 
 // Function: search movies by query
 export async function searchMovies(query) {
@@ -51,3 +51,4 @@ export async function getMovieDetail(imdbID) {
     return { Response: "False", Error: "Failed to fetch movie details" };
   }
 }
+
